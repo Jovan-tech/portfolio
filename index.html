@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Portfolio</title>
+    <title>Jovan's Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
@@ -229,6 +229,299 @@
             to { transform: rotate(360deg); }
         }
     </style>
+    <style>
+        .chatbot-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .chatbot-icon:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            z-index: 1001;
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-container.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 15px 20px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .chatbot-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #3b82f6;
+            font-size: 20px;
+        }
+
+        .chatbot-info {
+            flex-grow: 1;
+        }
+
+        .chatbot-info h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .chatbot-info p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .chatbot-close:hover {
+            opacity: 1;
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            max-width: 85%;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin: 0 10px;
+        }
+
+        .bot-message .avatar {
+            background: #e0f2fe;
+            color: #3b82f6;
+        }
+
+        .user-message .avatar {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .message .content {
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .bot-message .content {
+            background: #f1f5f9;
+            color: #334155;
+            border-bottom-left-radius: 4px;
+        }
+
+        .user-message .content {
+            background: #3b82f6;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .chatbot-input input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .chatbot-input input:focus {
+            border-color: #3b82f6;
+        }
+
+        .chatbot-input button {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .chatbot-input button:hover {
+            background: #2563eb;
+        }
+
+        /* Loading indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f1f5f9;
+            border-radius: 18px;
+            width: fit-content;
+            margin-top: 5px;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background: #94a3b8;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Chat bubble animation */
+        .chat-bubble {
+            position: fixed;
+            bottom: 120px;
+            right: 35px;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 200px;
+            z-index: 1000;
+            animation: bubbleFloat 3s ease-in-out infinite, bubbleEnter 0.5s ease-out;
+            transform-origin: bottom right;
+        }
+        
+        .chat-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+        }
+        
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+        
+        @keyframes bubbleEnter {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .quick-reply {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #3b82f6;
+            border-radius: 16px;
+            padding: 6px 12px;
+            margin: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-reply:hover {
+            background: #3b82f6;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <!-- Progress bar -->
@@ -285,10 +578,10 @@
                         Hi, I'm <span class="text-blue-600">Jovan Yapius</span>
                     </h1>
                     <h2 class="text-2xl md:text-3xl font-semibold text-gray-700">
-                        Professional Web Developer
+                        Web Developer
                     </h2>
                     <p class="text-gray-600 text-lg">
-                        I create beautiful, functional websites and applications with modern technologies.
+                        I create beautiful, functional websites and applications.
                     </p>
                     <div class="flex space-x-4">
                         <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
@@ -303,7 +596,7 @@
                     <div class="w-full h-80 md:h-96 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl shadow-lg flex items-center justify-center">
                         <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-600 rounded-full opacity-20 floating"></div>
                         <div class="absolute -top-4 -left-4 w-20 h-20 bg-indigo-600 rounded-full opacity-20 floating" style="animation-delay: 0.5s"></div>
-                        <img src="screenshots/formaljovan.jpeg" alt="Developer working" class="w-full h-full object-cover rounded-2xl">
+                        <img src="screenshots/fotobromo.jpeg" alt="Developer working" class="w-full h-full object-cover rounded-2xl">
                     </div>
                 </div>
             </div>
@@ -635,7 +928,7 @@
                 <div>
                     <h3 class="text-xl font-bold mb-4">Jovan Yapius</h3>
                     <p class="text-gray-400">
-                        Professional web developer creating modern, responsive websites and applications.
+                        Web developer creating modern, responsive websites and applications.
                     </p>
                 </div>
                 <div>
@@ -668,205 +961,518 @@
         </div>
     </footer>
 
-    <script>
-        // Initialize EmailJS
-        (function(){
-            emailjs.init({
-                publicKey: "mf10uFpCRyHx5RbTr",
-            });
-        })();
-        
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+    <!-- Chatbot Widget -->
+<div class="chatbot-container">
+  <div class="chatbot-header">
+    <div class="chatbot-avatar">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="chatbot-info">
+      <h3>Jovan Yapius</h3>
+      <p>Online</p>
+    </div>
+    <button class="chatbot-close">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <div class="chatbot-messages">
+    <div class="message bot-message">
+      <div class="avatar">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="content">
+        <p>Hello there! 👋 I'm Jovan Yapius, Is there any question in mind regarding to my portfolio?</p>
+        <p class="mt-2">Quick questions:</p>
+        <div class="mt-2">
+          <span class="quick-reply" onclick="quickReply('What skills do you have?')">Skills</span>
+          <span class="quick-reply" onclick="quickReply('Tell me about your projects')">Projects</span>
+          <span class="quick-reply" onclick="quickReply('How can I contact you?')">Contact</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chatbot-input">
+    <input type="text" placeholder="Ask me anything!" id="chat-input">
+    <button id="send-btn">
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </div>
+</div>
+
+<div class="chatbot-icon">
+  <i class="fas fa-robot"></i>
+</div>
+
+<div id="chat-bubble" class="chat-bubble">
+  Ask me anything
+</div>
+<script>
+    // Initialize EmailJS
+    (function(){
+        emailjs.init({
+            publicKey: "mf10uFpCRyHx5RbTr",
         });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                }
-            });
-        });
-        
-        // Project modal functions
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target.classList.contains('project-modal')) {
-                const modals = document.querySelectorAll('.project-modal');
-                modals.forEach(modal => {
-                    modal.classList.remove('active');
-                });
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modals = document.querySelectorAll('.project-modal');
-                modals.forEach(modal => {
-                    modal.classList.remove('active');
-                });
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // Add shadow to navbar on scroll
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 10) {
-                nav.classList.add('shadow-md');
-            } else {
-                nav.classList.remove('shadow-md');
-            }
-        });
-        
-        // Scroll progress bar
-        const progressBar = document.querySelector('.progress-bar');
-        window.addEventListener('scroll', () => {
-            const scrollTop = document.documentElement.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight;
-            const clientHeight = document.documentElement.clientHeight;
-            const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
-            progressBar.style.width = `${scrolled}%`;
-        });
-        
-        // Scroll to top button
-        const scrollTopBtn = document.querySelector('.scroll-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) {
-                scrollTopBtn.classList.add('active');
-            } else {
-                scrollTopBtn.classList.remove('active');
-            }
-        });
-        
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Initialize the navbar animation
-        setTimeout(() => {
-            document.querySelector('nav').classList.add('active');
-        }, 300);
-        
-        // Scroll animation observer
-        const animateElements = document.querySelectorAll('.animate-on-scroll, .slide-left, .slide-right');
-        const popInElements = document.querySelectorAll('.pop-in');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if (entry.target.classList.contains('pop-in')) {
-                        entry.target.classList.add('active');
-                    } else {
-                        entry.target.classList.add('fade-in', 'slide-in');
-                    }
-                    
-                    // For skill bars
-                    if (entry.target.classList.contains('skill-bar')) {
-                        const width = entry.target.getAttribute('data-width');
-                        entry.target.style.width = width;
-                    }
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        animateElements.forEach(el => {
-            observer.observe(el);
-        });
-        
-        popInElements.forEach(el => {
-            observer.observe(el);
-        });
-        
-        // Animate skill bars when they come into view
-        const skillBars = document.querySelectorAll('.skill-bar');
-        skillBars.forEach(bar => {
-            observer.observe(bar);
-        });
-        
-        // Show notification
-        function showNotification(message, isSuccess) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = 'notification show ' + (isSuccess ? 'success' : 'error');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
-        }
-        
-        // Handle contact form submission
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
+    })();
+    
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             
-            const submitButton = document.getElementById('submit-btn');
-            const submitText = submitButton.querySelector('.btn-text');
-            const spinner = submitButton.querySelector('.spinner');
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
             
-            // Show loading state
-            submitButton.classList.add('btn-loading');
-            submitButton.disabled = true;
-            
-            // Get form values
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message').value
-            };
-            
-            // Send email
-            emailjs.send("service_2yf86p5", "template_rq8i30y", formData)
-                .then(() => {
-                    showNotification('Message sent successfully!', true);
-                    this.reset();
-                })
-                .catch((error) => {
-                    console.error('Email sending failed:', error);
-                    showNotification('Failed to send message. Please try again later.', false);
-                })
-                .finally(() => {
-                    // Reset button state
-                    submitButton.classList.remove('btn-loading');
-                    submitButton.disabled = false;
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
                 });
+                
+                // Close mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            }
         });
-    </script>
+    });
+    
+    // Project modal functions
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('project-modal')) {
+            const modals = document.querySelectorAll('.project-modal');
+            modals.forEach(modal => {
+                modal.classList.remove('active');
+            });
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modals = document.querySelectorAll('.project-modal');
+            modals.forEach(modal => {
+                modal.classList.remove('active');
+            });
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Add shadow to navbar on scroll
+    window.addEventListener('scroll', function() {
+        const nav = document.querySelector('nav');
+        if (window.scrollY > 10) {
+            nav.classList.add('shadow-md');
+        } else {
+            nav.classList.remove('shadow-md');
+        }
+    });
+    
+    // Scroll progress bar
+    const progressBar = document.querySelector('.progress-bar');
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
+        progressBar.style.width = `${scrolled}%`;
+    });
+    
+    // Scroll to top button
+    const scrollTopBtn = document.querySelector('.scroll-top');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+            scrollTopBtn.classList.add('active');
+        } else {
+            scrollTopBtn.classList.remove('active');
+        }
+    });
+    
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Initialize the navbar animation
+    setTimeout(() => {
+        document.querySelector('nav').classList.add('active');
+    }, 300);
+    
+    // Scroll animation observer
+    const animateElements = document.querySelectorAll('.animate-on-scroll, .slide-left, .slide-right');
+    const popInElements = document.querySelectorAll('.pop-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('pop-in')) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.add('fade-in', 'slide-in');
+                }
+                
+                // For skill bars
+                if (entry.target.classList.contains('skill-bar')) {
+                    const width = entry.target.getAttribute('data-width');
+                    entry.target.style.width = width;
+                }
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    animateElements.forEach(el => {
+        observer.observe(el);
+    });
+    
+    popInElements.forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Animate skill bars when they come into view
+    const skillBars = document.querySelectorAll('.skill-bar');
+    skillBars.forEach(bar => {
+        observer.observe(bar);
+    });
+    
+    // Show notification
+    function showNotification(message, isSuccess) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = 'notification show ' + (isSuccess ? 'success' : 'error');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 5000);
+    }
+    
+    // Handle contact form submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitButton = document.getElementById('submit-btn');
+        const submitText = submitButton.querySelector('.btn-text');
+        const spinner = submitButton.querySelector('.spinner');
+        
+        // Show loading state
+        submitButton.classList.add('btn-loading');
+        submitButton.disabled = true;
+        
+        // Get form values
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        };
+        
+        // Send email
+        emailjs.send("service_2yf86p5", "template_rq8i30y", formData)
+            .then(() => {
+                showNotification('Message sent successfully!', true);
+                this.reset();
+            })
+            .catch((error) => {
+                console.error('Email sending failed:', error);
+                showNotification('Failed to send message. Please try again later.', false);
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.classList.remove('btn-loading');
+                submitButton.disabled = false;
+            });
+    });
+
+// Chatbot functionality
+    const chatbotIcon = document.querySelector('.chatbot-icon');
+    const chatbotContainer = document.querySelector('.chatbot-container');
+    const chatCloseBtn = document.querySelector('.chatbot-close');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatMessages = document.querySelector('.chatbot-messages');
+    const chatBubble = document.getElementById('chat-bubble');
+
+    // Hide bubble initially
+    chatBubble.style.display = 'none';
+
+    const bubbleMessages = [
+        "Ask me anything!",
+        "Need help with web development?",
+        "Want to know about my projects?",
+        "Curious about my skills?",
+        "Let's discuss your project ideas!"
+    ];
+    let currentBubbleIndex = 0;
+    let bubbleTimeout;
+
+    // Function to show next chat bubble
+    function showNextBubble() {
+        // Don't show if chat is open
+        if (chatbotContainer.classList.contains('active')) {
+            bubbleTimeout = setTimeout(showNextBubble, 7000);
+            return;
+        }
+        
+        // Update bubble text
+        chatBubble.textContent = bubbleMessages[currentBubbleIndex];
+        currentBubbleIndex = (currentBubbleIndex + 1) % bubbleMessages.length;
+        
+        // Show bubble
+        chatBubble.style.display = 'block';
+        
+        // Hide after 5 seconds and schedule next one
+        setTimeout(() => {
+            chatBubble.style.display = 'none';
+            bubbleTimeout = setTimeout(showNextBubble, 7000);
+        }, 5000);
+    }
+
+    // Start bubble sequence after initial delay
+    setTimeout(() => {
+        showNextBubble();
+    }, 7000);
+
+    // Toggle chat window - only one event listener needed
+    chatbotIcon.addEventListener('click', () => {
+        chatbotContainer.classList.toggle('active');
+        chatBubble.style.display = 'none';
+        clearTimeout(bubbleTimeout);
+    });
+
+    // Close chat window
+    chatCloseBtn.addEventListener('click', () => {
+        chatbotContainer.classList.remove('active');
+    });
+
+    // Hide bubble on icon hover
+    chatbotIcon.addEventListener('mouseover', () => {
+        chatBubble.style.display = 'none';
+    });
+
+    // Send message
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message) {
+            addMessage(message, 'user');
+            chatInput.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Get bot response
+            setTimeout(() => {
+                removeTypingIndicator();
+                getBotResponse(message);
+            }, 1000);
+        }
+    }
+
+    // Quick reply function
+    function quickReply(message) {
+        chatInput.value = message;
+        sendMessage();
+    }
+
+    // Send on button click
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Send on Enter key
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // Add message to chat
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', `${sender}-message`);
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.classList.add('avatar');
+        
+        const avatarIcon = document.createElement('i');
+        avatarIcon.classList.add('fas', sender === 'user' ? 'fa-user' : 'fa-robot');
+        avatarDiv.appendChild(avatarIcon);
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('content');
+        
+        const messageText = document.createElement('p');
+        messageText.textContent = text;
+        contentDiv.appendChild(messageText);
+        
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(contentDiv);
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Show typing indicator
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.classList.add('typing-indicator');
+        typingDiv.id = 'typing-indicator';
+        
+        typingDiv.innerHTML = `
+            <span></span>
+            <span></span>
+            <span></span>
+        `;
+        
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Remove typing indicator
+    function removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    // Advanced bot response system
+    function getBotResponse(userMessage) {
+        const lowerMessage = userMessage.toLowerCase();
+        let response = "";
+        let quickReplies = [];
+        
+        // Define response patterns
+        const responsePatterns = [
+            {
+                keywords: ['hello', 'hi', 'hey', 'hallo', 'hay', 'hey', 'halo', 'hii', 'hai', 'ni hao', 'pagi', 'morning', 'selamat pagi'],
+                response: "Hello! I'm Jovan Yapius, a web developer. How can I help you today?",
+                quickReplies: ['What skills do you have?', 'Tell me about your projects', 'How can I contact you?']
+            },
+            {
+                keywords: ['skill', 'expert', 'know', 'proficient'],
+                response: "I specialize in:\n- PHP & Laravel development\n- Database design (MySQL, PostgreSQL)\n- RESTful API creation\n- Problem-solving and debugging\n\nWhich area interests you?",
+                quickReplies: ['PHP expertise', 'API development', 'Database design']
+            },
+            {
+                keywords: ['project', 'work', 'portfolio'],
+                response: "I've worked on several exciting projects:\n1. Restaurant Management System\n2. Healthcare Monitoring Platform\n3. Chatbot API Integration\n4. Cooperative Finance System\n\nWould you like details on any specific project?",
+                quickReplies: ['Restaurant system', 'Healthcare platform', 'Chatbot API']
+            },
+            {
+                keywords: ['contact', 'email', 'hire', 'reach'],
+                response: "You can contact me via:\n📧 Email: jovanyapiusyusuf@gmail.com\n💼 LinkedIn: linkedin.com/in/jovan-yapius\n\nI'm available for freelance projects or full-time opportunities.",
+                quickReplies: ['Email address', 'LinkedIn profile', 'Hire you']
+            },
+            {
+                keywords: ['api', 'rest', 'endpoint'],
+                response: "I have extensive experience designing and implementing RESTful APIs. I follow best practices for:\n- Authentication (JWT, OAuth)\n- Rate limiting\n- Versioning\n- Clear documentation\n\nI've built APIs for various industries including healthcare and finance.",
+                quickReplies: ['API security', 'Documentation', 'Rate limiting']
+            },
+            {
+                keywords: ['database', 'mysql', 'postgresql'],
+                response: "I design efficient, normalized database schemas with:\n- Proper indexing\n- Optimized queries\n- Backup strategies\n- Data validation\n\nI've worked with SQL on project requirements.",
+                quickReplies: ['Database optimization', 'Schema design', 'Backup strategies']
+            },
+            {
+                keywords: ['laravel', 'php'],
+                response: "Laravel is my primary backend framework. I use it to build:\n- Scalable web applications\n- Robust APIs\n- Admin dashboards\n- E-commerce solutions\n\nI follow MVC patterns and implement features like queues, events, and caching.",
+                quickReplies: ['Laravel features', 'MVC pattern', 'Caching strategies']
+            },
+            {
+                keywords: ['javascript', 'frontend', 'ui'],
+                response: "For frontend development, I work with:\n- Vanilla JavaScript\n- Tailwind CSS\n- Alpine.js\n- Livewire\n\nI focus on creating responsive, accessible interfaces with smooth animations.",
+                quickReplies: ['JavaScript expertise', 'Responsive design', 'UI animations']
+            },
+            {
+                keywords: ['problem', 'issue', 'bug', 'error'],
+                response: "Debugging is one of my strengths! I approach problems by:\n1. Reproducing the issue\n2. Isolating the cause\n3. Researching solutions\n4. Implementing fixes\n5. Testing thoroughly\n\nDescribe your issue and I'll try to help!",
+                quickReplies: ['Common PHP errors', 'Debugging techniques', 'Error handling']
+            }
+        ];
+        
+        // Find matching pattern
+        let matchedPattern = responsePatterns.find(pattern => 
+            pattern.keywords.some(keyword => lowerMessage.includes(keyword))
+        );
+        
+        // Default response if no match
+        if (!matchedPattern) {
+            matchedPattern = {
+                response: "That's interesting! As a web development assistant, I can help with:\n- Technical solutions\n- Project planning\n- Code reviews\n- Best practices\n\nWhat specific challenge are you facing?",
+                quickReplies: ['Project advice']
+            };
+        }
+        
+        response = matchedPattern.response;
+        quickReplies = matchedPattern.quickReplies || [];
+        
+        // Add bot message
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', 'bot-message');
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.classList.add('avatar');
+        const avatarIcon = document.createElement('i');
+        avatarIcon.classList.add('fas', 'fa-robot');
+        avatarDiv.appendChild(avatarIcon);
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('content');
+        
+        const messageText = document.createElement('p');
+        messageText.innerHTML = response.replace(/\n/g, '<br>');
+        contentDiv.appendChild(messageText);
+        
+        // Add quick replies if available
+        if (quickReplies.length > 0) {
+            const quickReplyContainer = document.createElement('div');
+            quickReplyContainer.classList.add('mt-3');
+            quickReplyContainer.innerHTML = '<p class="text-sm mb-1">Quick follow-up:</p>';
+            
+            quickReplies.forEach(reply => {
+                const replySpan = document.createElement('span');
+                replySpan.classList.add('quick-reply');
+                replySpan.textContent = reply;
+                replySpan.onclick = () => quickReply(reply);
+                quickReplyContainer.appendChild(replySpan);
+            });
+            
+            contentDiv.appendChild(quickReplyContainer);
+        }
+        
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(contentDiv);
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
 </body>
 </html>
