@@ -422,19 +422,19 @@
         }
 
         .chatbot-input button {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
             background: #3b82f6;
             color: white;
             border: none;
             margin-left: 10px;
             cursor: pointer;
             transition: background 0.3s;
-        }
-
-        .chatbot-input button:hover {
-            background: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
         }
 
         /* Loading indicator */
@@ -1223,7 +1223,7 @@
     const bubbleMessages = [
         "Ask me anything!",
         "Need help with web development?",
-        "Want to know about my projects?",
+        "Want to know more about my projects?",
         "Curious about my skills?",
         "Let's discuss your project ideas!"
     ];
@@ -1401,7 +1401,7 @@
             {
                 keywords: ['laravel', 'php'],
                 response: "Laravel is my primary backend framework. I use it to build:\n- Scalable web applications\n- Robust APIs\n- Admin dashboards\n- E-commerce solutions\n\nI follow MVC patterns and implement features like queues, events, and caching.",
-                quickReplies: ['Laravel features', 'MVC pattern', 'Caching strategies']
+                quickReplies: ['Laravel features', 'MVC pattern']
             },
             {
                 keywords: ['javascript', 'frontend', 'ui'],
@@ -1412,6 +1412,22 @@
                 keywords: ['problem', 'issue', 'bug', 'error'],
                 response: "Debugging is one of my strengths! I approach problems by:\n1. Reproducing the issue\n2. Isolating the cause\n3. Researching solutions\n4. Implementing fixes\n5. Testing thoroughly\n\nDescribe your issue and I'll try to help!",
                 quickReplies: ['Common PHP errors', 'Debugging techniques', 'Error handling']
+            },
+
+            {
+                keywords: ['deploy', 'hosting', 'server', 'online', 'vercel', 'shared hosting', 'cpanel'],
+                response: "I usually deploy my apps on platforms like Vercel, shared hosting with cPanel, or VPS with custom setups.\nI can help you deploy Laravel apps, configure .env files, and set up production databases.",
+                quickReplies: ['Deploy Laravel app', 'Vercel vs shared hosting', 'Environment setup']
+            },
+            {
+                keywords: ['test', 'validation', 'unit test', 'feature test'],
+                response: "I write tests using Laravel's built-in testing features. I also do input validation both on frontend (JS) and backend (Laravel Request classes).\nTesting improves reliability and saves debugging time!",
+                quickReplies: ['Laravel feature test', 'Form validation', 'Testing tips']
+            },
+            {
+                keywords: ['learn', 'learning', 'beginner', 'improve', 'tips', 'advice'],
+                response: "Learning never stops! I recommend building real projects, reading Laravel docs, and following creators like Laracasts or Povilas Korop.\nWant tips on where to start or what to build next?",
+                quickReplies: ['Beginner project ideas', 'Laravel resources', 'Portfolio building']
             }
         ];
         
