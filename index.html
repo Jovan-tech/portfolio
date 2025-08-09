@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jovan's Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'gradient-y': 'gradient-y 15s ease infinite',
+                        'gradient-xy': 'gradient-xy 15s ease infinite',
+                        'tilt': 'tilt 10s infinite linear',
+                    },
+                    keyframes: {
+                        'gradient-y': {
+                            '0%, 100%': {
+                                'background-size': '400% 400%',
+                                'background-position': 'center top'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'center center'
+                            }
+                        },
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        },
+                        'gradient-xy': {
+                            '0%, 100%': {
+                                'background-size': '400% 400%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        },
+                        'tilt': {
+                            '0%, 50%, 100%': {
+                                transform: 'rotate(0deg)',
+                            },
+                            '25%': {
+                                transform: 'rotate(1deg)',
+                            },
+                            '75%': {
+                                transform: 'rotate(-1deg)',
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
@@ -23,6 +81,27 @@
             font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
             background-color: #f8fafc;
+            transition: background-color 0.5s ease;
+        }
+        
+        .dark body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        
+        /* Glassmorphism base styles */
+        .glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+        
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(2, 8, 32, 0.3);
         }
         
         /* Scroll Animation Classes */
@@ -71,17 +150,61 @@
         }
         
         .project-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
         }
         
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .project-card:hover::before {
+            opacity: 1;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+        
+        .project-card:hover .project-title::after {
+            width: 100%;
+        }
+        
+        .project-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .project-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .nav-link {
             position: relative;
+            transition: all 0.3s ease;
         }
         
         .nav-link::after {
@@ -91,7 +214,7 @@
             height: 2px;
             bottom: -2px;
             left: 0;
-            background-color: #3b82f6;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
             transition: width 0.3s ease;
         }
         
@@ -101,6 +224,10 @@
         
         .hero-section {
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+        
+        .dark .hero-section {
+            background: linear-gradient(135deg, #0c4a6e 0%, #1e3a8a 100%);
         }
         
         .section-spacing {
@@ -121,7 +248,7 @@
         /* Progress bar */
         .progress-bar {
             height: 4px;
-            background: #3b82f6;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
             position: fixed;
             top: 0;
             left: 0;
@@ -135,7 +262,7 @@
             right: 2rem;
             width: 50px;
             height: 50px;
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -147,7 +274,7 @@
             transform: translateY(20px);
             transition: all 0.3s ease;
             z-index: 90;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
         
         .scroll-top.active {
@@ -156,8 +283,8 @@
         }
         
         .scroll-top:hover {
-            background: #2563eb;
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
         }
         
         /* Decorative animations */
@@ -177,6 +304,8 @@
         /* Skill bar animation */
         .skill-bar {
             transition: width 1.5s ease-out;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
         }
         
         /* Notification */
@@ -185,13 +314,19 @@
             top: 20px;
             right: 20px;
             padding: 15px 25px;
-            border-radius: 8px;
+            border-radius: 12px;
             color: white;
             font-weight: 500;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             transform: translateX(200%);
             transition: transform 0.3s ease-in-out;
+            backdrop-filter: blur(10px);
+            background: rgba(16, 185, 129, 0.8);
+        }
+        
+        .dark .notification {
+            background: rgba(16, 185, 129, 0.6);
         }
         
         .notification.show {
@@ -199,11 +334,19 @@
         }
         
         .notification.success {
-            background-color: #10b981;
+            background: rgba(16, 185, 129, 0.8);
+        }
+        
+        .dark .notification.success {
+            background: rgba(16, 185, 129, 0.6);
         }
         
         .notification.error {
-            background-color: #ef4444;
+            background: rgba(239, 68, 68, 0.8);
+        }
+        
+        .dark .notification.error {
+            background: rgba(239, 68, 68, 0.6);
         }
         
         /* Button loading state */
@@ -228,6 +371,191 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Gradient buttons */
+        .gradient-btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .gradient-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .gradient-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .gradient-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .border-gradient-btn {
+            position: relative;
+            background: transparent;
+            z-index: 1;
+        }
+        
+        .border-gradient-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.75rem;
+            padding: 2px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            z-index: -1;
+        }
+        
+        .border-gradient-btn:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        /* Form styles */
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 1rem 1rem 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .dark .input-field {
+            background: rgba(15, 23, 42, 0.5);
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+        
+        .input-label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: #64748b;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .input-field:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .dark .input-field:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+        }
+        
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label {
+            top: -0.5rem;
+            left: 0.8rem;
+            font-size: 0.75rem;
+            background: #fff;
+            padding: 0 0.25rem;
+            color: #3b82f6;
+        }
+        
+        .dark .input-field:focus + .input-label,
+        .dark .input-field:not(:placeholder-shown) + .input-label {
+            background: #0f172a;
+        }
+        
+        /* Dark mode toggle */
+        .theme-toggle {
+            width: 3rem;
+            height: 1.5rem;
+            background: #cbd5e1;
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .dark .theme-toggle {
+            background: #475569;
+        }
+        
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 0.125rem;
+            left: 0.125rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .dark .theme-toggle::after {
+            transform: translateX(1.5rem);
+        }
+        
+        .theme-toggle i {
+            position: absolute;
+            top: 0.25rem;
+            font-size: 1rem;
+            color: #f59e0b;
+        }
+        
+        .theme-toggle .fa-sun {
+            left: 0.25rem;
+            opacity: 0;
+        }
+        
+        .dark .theme-toggle .fa-sun {
+            opacity: 1;
+        }
+        
+        .theme-toggle .fa-moon {
+            right: 0.25rem;
+            opacity: 1;
+        }
+        
+        .dark .theme-toggle .fa-moon {
+            opacity: 0;
+        }
+        
+        /* Navbar shrink effect */
+        nav.shrink {
+            height: 4rem;
+        }
+        
+        nav.shrink .logo {
+            font-size: 1.25rem;
+        }
+        
+        nav.shrink .nav-link {
+            font-size: 0.875rem;
+        }
     </style>
     <style>
         .chatbot-icon {
@@ -236,7 +564,7 @@
             right: 30px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -244,7 +572,7 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
             z-index: 1000;
             transition: all 0.3s ease;
             animation: pulse 2s infinite;
@@ -252,7 +580,7 @@
 
         .chatbot-icon:hover {
             transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
         }
 
         @keyframes pulse {
@@ -267,29 +595,38 @@
             right: 30px;
             width: 350px;
             height: 500px;
-            background-color: white;
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
             z-index: 1001;
-            transform: translateY(20px);
+            transform: translateY(20px) scale(0.95);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .chatbot-container {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .chatbot-container.active {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
             opacity: 1;
             visibility: visible;
         }
 
         .chatbot-header {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             padding: 15px 20px;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
             display: flex;
             align-items: center;
             color: white;
@@ -350,6 +687,14 @@
         .message {
             display: flex;
             max-width: 85%;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .message.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .bot-message {
@@ -387,6 +732,7 @@
             border-radius: 18px;
             font-size: 14px;
             line-height: 1.5;
+            transition: transform 0.2s ease;
         }
 
         .bot-message .content {
@@ -394,9 +740,14 @@
             color: #334155;
             border-bottom-left-radius: 4px;
         }
+        
+        .dark .bot-message .content {
+            background: rgba(30, 41, 59, 0.7);
+            color: #e2e8f0;
+        }
 
         .user-message .content {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
             border-bottom-right-radius: 4px;
         }
@@ -404,17 +755,28 @@
         .chatbot-input {
             display: flex;
             padding: 15px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid rgba(226, 232, 240, 0.3);
+        }
+        
+        .dark .chatbot-input {
+            border-top: 1px solid rgba(30, 41, 59, 0.5);
         }
 
         .chatbot-input input {
             flex-grow: 1;
             padding: 12px 16px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid rgba(226, 232, 240, 0.5);
             border-radius: 24px;
             outline: none;
             font-size: 14px;
             transition: border-color 0.3s;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .dark .chatbot-input input {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(30, 41, 59, 0.5);
+            color: #e2e8f0;
         }
 
         .chatbot-input input:focus {
@@ -425,16 +787,20 @@
             width: 40px;
             height: 40px;
             border-radius: 20px;
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
             border: none;
             margin-left: 10px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0 12px;
+        }
+        
+        .chatbot-input button:hover {
+            transform: scale(1.05);
         }
 
         /* Loading indicator */
@@ -447,6 +813,10 @@
             width: fit-content;
             margin-top: 5px;
         }
+        
+        .dark .typing-indicator {
+            background: rgba(30, 41, 59, 0.7);
+        }
 
         .typing-indicator span {
             height: 8px;
@@ -455,6 +825,10 @@
             border-radius: 50%;
             margin: 0 2px;
             animation: typing 1s infinite;
+        }
+        
+        .dark .typing-indicator span {
+            background: #cbd5e1;
         }
 
         .typing-indicator span:nth-child(2) {
@@ -475,7 +849,8 @@
             position: fixed;
             bottom: 120px;
             right: 35px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
             padding: 12px 16px;
             border-radius: 18px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -483,6 +858,12 @@
             z-index: 1000;
             animation: bubbleFloat 3s ease-in-out infinite, bubbleEnter 0.5s ease-out;
             transform-origin: bottom right;
+            font-size: 14px;
+        }
+        
+        .dark .chat-bubble {
+            background: rgba(15, 23, 42, 0.8);
+            color: #e2e8f0;
         }
         
         .chat-bubble::after {
@@ -492,7 +873,11 @@
             right: 20px;
             border-width: 10px 10px 0;
             border-style: solid;
-            border-color: white transparent transparent;
+            border-color: rgba(255, 255, 255, 0.9) transparent transparent;
+        }
+        
+        .dark .chat-bubble::after {
+            border-color: rgba(15, 23, 42, 0.8) transparent transparent;
         }
         
         @keyframes bubbleFloat {
@@ -507,7 +892,7 @@
         
         .quick-reply {
             display: inline-block;
-            background: #e0f2fe;
+            background: rgba(224, 242, 254, 0.7);
             color: #3b82f6;
             border-radius: 16px;
             padding: 6px 12px;
@@ -515,11 +900,35 @@
             font-size: 12px;
             cursor: pointer;
             transition: all 0.2s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .dark .quick-reply {
+            background: rgba(30, 41, 59, 0.7);
+            color: #93c5fd;
         }
         
         .quick-reply:hover {
             background: #3b82f6;
             color: white;
+            transform: translateY(-2px);
+        }
+        
+        .dark .quick-reply:hover {
+            background: #3b82f6;
+        }
+        
+        /* Hero image tilt animation */
+        .tilt-animation {
+            animation: tilt 10s infinite linear;
+            transform-origin: center;
+        }
+        
+        @keyframes tilt {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(1deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-1deg); }
         }
     </style>
 </head>
@@ -536,35 +945,41 @@
     <div id="notification" class="notification"></div>
     
     <!-- Navigation -->
-    <nav class="fixed w-full bg-white shadow-sm z-50 nav-transform">
+    <nav class="fixed w-full z-50 nav-transform glass">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
+            <div class="flex justify-between h-20 items-center transition-all duration-300">
                 <div class="flex-shrink-0 flex items-center">
-                    <span class="text-xl font-bold text-blue-600">Portfolio</span>
+                    <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent logo">Portfolio</span>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-center space-x-8">
-                        <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Home</a>
-                        <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">About</a>
-                        <a href="#projects" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Projects</a>
-                        <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Contact</a>
+                        <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium dark:text-gray-300">Home</a>
+                        <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium dark:text-gray-300">About</a>
+                        <a href="#projects" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium dark:text-gray-300">Projects</a>
+                        <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium dark:text-gray-300">Contact</a>
                     </div>
                 </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                <div class="flex items-center space-x-4">
+                    <div class="theme-toggle">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none dark:text-gray-300">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+        <div id="mobile-menu" class="hidden md:hidden glass mt-2 rounded-lg">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600">Home</a>
-                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600">About</a>
-                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600">Projects</a>
-                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600">Contact</a>
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300">Home</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300">About</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300">Projects</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300">Contact</a>
             </div>
         </div>
     </nav>
@@ -574,29 +989,29 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6 animate-on-scroll">
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                        Hi, I'm <span class="text-blue-600">Jovan Yapius</span>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight dark:text-white">
+                        Hi, I'm <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Jovan Yapius</span>
                     </h1>
-                    <h2 class="text-2xl md:text-3xl font-semibold text-gray-700">
+                    <h2 class="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300">
                         Web Developer
                     </h2>
-                    <p class="text-gray-600 text-lg">
+                    <p class="text-gray-600 text-lg dark:text-gray-400">
                         I create beautiful, functional websites and applications.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#projects" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
+                        <a href="#projects" class="px-6 py-3 gradient-btn rounded-xl font-medium">
                             View My Work
                         </a>
-                        <a href="#contact" class="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition duration-300 font-medium">
+                        <a href="#contact" class="px-6 py-3 border-gradient-btn text-blue-600 dark:text-blue-400 rounded-xl font-medium">
                             Contact Me
                         </a>
                     </div>
                 </div>
                 <div class="relative animate-on-scroll">
-                    <div class="w-full h-80 md:h-96 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl shadow-lg flex items-center justify-center">
+                    <div class="w-full h-80 md:h-96 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl shadow-lg flex items-center justify-center overflow-hidden tilt-animation dark:from-blue-900 dark:to-indigo-900">
                         <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-600 rounded-full opacity-20 floating"></div>
                         <div class="absolute -top-4 -left-4 w-20 h-20 bg-indigo-600 rounded-full opacity-20 floating" style="animation-delay: 0.5s"></div>
-                        <img src="screenshots/fotobromo.jpeg" alt="Developer working" class="w-full h-full object-cover rounded-2xl">
+                        <img src="screenshots/fotobromo.jpeg" alt="Developer working" class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>
@@ -604,92 +1019,92 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section-spacing bg-white">
+    <section id="about" class="section-spacing">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 animate-on-scroll">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">About Me</h2>
-                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4 dark:text-white">About Me</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
             </div>
             
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6 animate-on-scroll slide-left">
-                    <h3 class="text-2xl font-semibold text-gray-800">Who I Am</h3>
-                    <p class="text-gray-600">
+                <div class="space-y-6 animate-on-scroll slide-left glass p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white">Who I Am</h3>
+                    <p class="text-gray-600 dark:text-gray-400">
                         I’m a Full Stack Developer with a focus on building smart, scalable, and efficient web applications. I specialize in developing robust APIs, automating business workflows, and integrating AI into practical systems. With hands-on experience in custom problem management solutions and real-time data analytics, I enjoy transforming complex challenges into seamless digital tools.
                     </p>
-                    <p class="text-gray-600">
+                    <p class="text-gray-600 dark:text-gray-400">
                         I’ve collaborated with tech teams and stakeholders to deliver reliable backend systems, and secure data handling. Whether it’s connecting a user to intelligent bots or managing structured business processes, I design with both performance and purpose in mind.
                     </p>
                     
                     <div class="grid grid-cols-2 gap-4 mt-8">
                         <div class="flex items-center space-x-2">
-                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-blue-600"></i>
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center dark:bg-blue-900/50">
+                                <i class="fas fa-check text-blue-600 dark:text-blue-400"></i>
                             </div>
-                            <span class="text-gray-700">Responsive Design</span>
+                            <span class="text-gray-700 dark:text-gray-300">Responsive Design</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-blue-600"></i>
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center dark:bg-blue-900/50">
+                                <i class="fas fa-check text-blue-600 dark:text-blue-400"></i>
                             </div>
-                            <span class="text-gray-700">Clean Code</span>
+                            <span class="text-gray-700 dark:text-gray-300">Clean Code</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-blue-600"></i>
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center dark:bg-blue-900/50">
+                                <i class="fas fa-check text-blue-600 dark:text-blue-400"></i>
                             </div>
-                            <span class="text-gray-700">Clean Database</span>
+                            <span class="text-gray-700 dark:text-gray-300">Clean Database</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-blue-600"></i>
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center dark:bg-blue-900/50">
+                                <i class="fas fa-check text-blue-600 dark:text-blue-400"></i>
                             </div>
-                            <span class="text-gray-700">Fast Loading</span>
+                            <span class="text-gray-700 dark:text-gray-300">Fast Loading</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="space-y-6 animate-on-scroll slide-right">
-                    <h3 class="text-2xl font-semibold text-gray-800">My Skills</h3>
+                <div class="space-y-6 animate-on-scroll slide-right glass p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white">My Skills</h3>
                     
                     <div class="space-y-4">
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="text-gray-700">PHP</span>
-                                <span class="text-gray-500">95%</span>
+                                <span class="text-gray-700 dark:text-gray-300">PHP</span>
+                                <span class="text-gray-500 dark:text-gray-400">95%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full skill-bar" style="width: 0" data-width="95%"></div>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-gray-700">Laravel</span>
-                                <span class="text-gray-500">90%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full skill-bar" style="width: 0" data-width="90%"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                                <div class="h-2 rounded-full skill-bar" style="width: 0" data-width="95%"></div>
                             </div>
                         </div>
                         
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="text-gray-700">MySQL</span>
-                                <span class="text-gray-500">85%</span>
+                                <span class="text-gray-700 dark:text-gray-300">Laravel</span>
+                                <span class="text-gray-500 dark:text-gray-400">90%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full skill-bar" style="width: 0" data-width="85%"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                                <div class="h-2 rounded-full skill-bar" style="width: 0" data-width="90%"></div>
                             </div>
                         </div>
                         
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="text-gray-700">JavaScript</span>
-                                <span class="text-gray-500">60%</span>
+                                <span class="text-gray-700 dark:text-gray-300">MySQL</span>
+                                <span class="text-gray-500 dark:text-gray-400">85%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full skill-bar" style="width: 0" data-width="60%"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                                <div class="h-2 rounded-full skill-bar" style="width: 0" data-width="85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700 dark:text-gray-300">JavaScript</span>
+                                <span class="text-gray-500 dark:text-gray-400">60%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                                <div class="h-2 rounded-full skill-bar" style="width: 0" data-width="60%"></div>
                             </div>
                         </div>
                     </div>
@@ -699,90 +1114,90 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="section-spacing bg-gray-50">
+    <section id="projects" class="section-spacing">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 animate-on-scroll">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">My Projects</h2>
-                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4 dark:text-white">My Projects</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Project 1 -->
-                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md pop-in">
+                <div class="project-card glass rounded-2xl overflow-hidden pop-in">
                     <div class="h-48 overflow-hidden">
-                        <img src="screenshots/cover.jpg" alt="Project 1" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer" onclick="openModal('modal1')">
+                        <img src="screenshots/cover.jpg" alt="Project 1" class="w-full h-full object-cover project-image transition-transform duration-500 cursor-pointer" onclick="openModal('modal1')">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Restaurant Management System with Accounting Integration</h3>
-                        <p class="text-gray-600 mb-4">A full-featured online store with cart functionality and payment integration.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2 dark:text-white project-title">Restaurant Management System with Accounting Integration</h3>
+                        <p class="text-gray-600 mb-4 dark:text-gray-400">A full-featured online store with cart functionality and payment integration.</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Laravel</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Tailwind CSS</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">MySQL</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Laravel</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Tailwind CSS</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">MySQL</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 2 -->
-                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md pop-in">
+                <div class="project-card glass rounded-2xl overflow-hidden pop-in">
                     <div class="h-48 overflow-hidden">
-                        <img src="screenshots/chatbot.jpeg" alt="Project 2" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer" onclick="openModal('modal2')">
+                        <img src="screenshots/chatbot.jpeg" alt="Project 2" class="w-full h-full object-cover project-image transition-transform duration-500 cursor-pointer" onclick="openModal('modal2')">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Chatbot API</h3>
-                        <p class="text-gray-600 mb-4">A responsive Chatbot to help user manage problem.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2 dark:text-white project-title">Chatbot API</h3>
+                        <p class="text-gray-600 mb-4 dark:text-gray-400">A responsive Chatbot to help user manage problem.</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Postman</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">PostgreSQL</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Laravel</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Postman</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">PostgreSQL</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Laravel</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 3 -->
-                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md pop-in">
+                <div class="project-card glass rounded-2xl overflow-hidden pop-in">
                     <div class="h-48 overflow-hidden">
-                        <img src="screenshots/LIST API.jpeg" alt="Project 3" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer" onclick="openModal('modal3')">
+                        <img src="screenshots/LIST API.jpeg" alt="Project 3" class="w-full h-full object-cover project-image transition-transform duration-500 cursor-pointer" onclick="openModal('modal3')">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">List API</h3>
-                        <p class="text-gray-600 mb-4">List of APIs for problem management project.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2 dark:text-white project-title">List API</h3>
+                        <p class="text-gray-600 mb-4 dark:text-gray-400">List of APIs for problem management project.</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">PHP</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">PostgreSQL</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Laravel</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">PHP</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">PostgreSQL</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Laravel</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 4 -->
-                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md pop-in">
+                <div class="project-card glass rounded-2xl overflow-hidden pop-in">
                     <div class="h-48 overflow-hidden">
-                        <img src="screenshots/cover2.jpeg" alt="Project 4" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer" onclick="openModal('modal4')">
+                        <img src="screenshots/cover2.jpeg" alt="Project 4" class="w-full h-full object-cover project-image transition-transform duration-500 cursor-pointer" onclick="openModal('modal4')">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Integrated Patient & Weekly Health Monitoring System</h3>
-                        <p class="text-gray-600 mb-4">An application to manage patients, caregivers, and weekly clinical updates.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2 dark:text-white project-title">Integrated Patient & Weekly Health Monitoring System</h3>
+                        <p class="text-gray-600 mb-4 dark:text-gray-400">An application to manage patients, caregivers, and weekly clinical updates.</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Laravel</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">MySQL</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">JavaScript</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Laravel</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">MySQL</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">JavaScript</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 5 -->
-                <div class="project-card bg-white rounded-xl overflow-hidden shadow-md pop-in">
+                <div class="project-card glass rounded-2xl overflow-hidden pop-in">
                     <div class="h-48 overflow-hidden">
-                        <img src="screenshots/cover3.jpeg" alt="Project 5" class="w-full h-full object-cover hover:scale-105 transition duration-500 cursor-pointer" onclick="openModal('modal5')">
+                        <img src="screenshots/cover3.jpeg" alt="Project 5" class="w-full h-full object-cover project-image transition-transform duration-500 cursor-pointer" onclick="openModal('modal5')">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Cooperative Savings and Loans Information System</h3>
-                        <p class="text-gray-600 mb-4">A cooperative finance system with savings, loan tracking, and member management.</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2 dark:text-white project-title">Cooperative Savings and Loans Information System</h3>
+                        <p class="text-gray-600 mb-4 dark:text-gray-400">A cooperative finance system with savings, loan tracking, and member management.</p>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Laravel</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">MySQL</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">JavaScript</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Laravel</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">MySQL</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">JavaScript</span>
                         </div>
                     </div>
                 </div>
@@ -793,39 +1208,39 @@
     <!-- Project Modals -->
     <!-- Modal 1 -->
     <div id="modal1" class="project-modal fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="glass max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-2xl">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-2xl font-bold text-gray-800">E-commerce Platform</h3>
-                    <button onclick="closeModal('modal1')" class="text-gray-500 hover:text-gray-700">
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">E-commerce Platform</h3>
+                    <button onclick="closeModal('modal1')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                         <i class="fas fa-times text-2xl"></i>
                     </button>
                 </div>
                 
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <img src="screenshots/cover.jpg">
+                        <img src="screenshots/cover.jpg" class="rounded-xl">
                     </div>
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Project Details</h4>
-                        <p class="text-gray-600 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2 dark:text-white">Project Details</h4>
+                        <p class="text-gray-600 mb-4 dark:text-gray-400">
                             A complete restaurant finance solution with product listings, shopping cart, user authentication, 
                             and payment processing. The platform features a responsive design that works seamlessly on website.
                         </p>
                         <div class="mb-4">
-                            <h5 class="font-medium text-gray-800 mb-2">Technologies Used:</h5>
+                            <h5 class="font-medium text-gray-800 mb-2 dark:text-white">Technologies Used:</h5>
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Laravel</span>
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">MYSQL</span>
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">JavaScript</span>
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Tailwind CSS</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Laravel</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">MYSQL</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">JavaScript</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full dark:bg-blue-900/30 dark:text-blue-400">Tailwind CSS</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="mb-6">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Additional Screenshots</h4>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">Additional Screenshots</h4>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <img src="screenshots/project1.jpg" class="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-90">
                         <img src="screenshots/project2.jpg" class="w-full h-32 object-cover rounded-lg cursor-pointer hover:opacity-90">
@@ -837,17 +1252,17 @@
     </div>
 
     <!-- Contact Section -->
-    <section id="contact" class="section-spacing bg-white">
+    <section id="contact" class="section-spacing">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 animate-on-scroll">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
-                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4 dark:text-white">Get In Touch</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
             </div>
             
             <div class="grid md:grid-cols-2 gap-12">
-                <div class="space-y-6 animate-on-scroll slide-left">
-                    <h3 class="text-2xl font-semibold text-gray-800">Contact Information</h3>
-                    <p class="text-gray-600">
+                <div class="space-y-6 animate-on-scroll slide-left glass p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white">Contact Information</h3>
+                    <p class="text-gray-600 dark:text-gray-400">
                         Feel free to reach out if you're looking for a developer, have a question, or just want to connect.
                     </p>
                     
@@ -857,8 +1272,8 @@
                                 <i class="fas fa-envelope text-blue-600"></i>
                             </div>
                             <div>
-                                <h4 class="font-medium text-gray-800">Email</h4>
-                                <p class="text-gray-600">jovanyapiusyusuf@gmail.com</p>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Email</h4>
+                                <p class="text-gray-600 dark:text-gray-400">jovanyapiusyusuf@gmail.com</p>
                             </div>
                         </div>
                         
@@ -867,50 +1282,52 @@
                                 <i class="fas fa-map-marker-alt text-blue-600"></i>
                             </div>
                             <div>
-                                <h4 class="font-medium text-gray-800">Location</h4>
-                                <p class="text-gray-600">Jawa Tengah, Indonesia</p>
+                                <h4 class="font-medium text-gray-800 dark:text-white">Location</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Jawa Tengah, Indonesia</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="pt-4">
-                        <h4 class="font-medium text-gray-800 mb-3">Follow Me</h4>
+                        <h4 class="font-medium text-gray-800 mb-3 dark:text-white">Follow Me</h4>
                         <div class="flex space-x-4">
-                            <a href="https://github.com/Jovan-tech" class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition">
+                            <a href="https://github.com/Jovan-tech" class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50">
                                 <i class="fab fa-github"></i>
                             </a>
-                            <a href="https://www.linkedin.com/in/jovan-yapius/" class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition">
+                            <a href="https://www.linkedin.com/in/jovan-yapius/" class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
-                            <a href="https://www.instagram.com/jovanyapius/" class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition">
+                            <a href="https://www.instagram.com/jovanyapius/" class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="animate-on-scroll slide-right">
+                <div class="animate-on-scroll slide-right glass p-8 rounded-2xl">
                     <form id="contact-form" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-                            </div>
+                        <div class="input-group">
+                            <input type="text" id="name" name="name" class="input-field" placeholder=" " required>
+                            <label for="name" class="input-label">Name *</label>
                         </div>
-                        <div>
-                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject *</label>
-                            <input type="text" id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        
+                        <div class="input-group">
+                            <input type="email" id="email" name="email" class="input-field" placeholder=" " required>
+                            <label for="email" class="input-label">Email *</label>
                         </div>
-                        <div>
-                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
-                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                        
+                        <div class="input-group">
+                            <input type="text" id="subject" name="subject" class="input-field" placeholder=" " required>
+                            <label for="subject" class="input-label">Subject *</label>
                         </div>
+                        
+                        <div class="input-group">
+                            <textarea id="message" name="message" rows="5" class="input-field" placeholder=" " required></textarea>
+                            <label for="message" class="input-label">Message *</label>
+                        </div>
+                        
                         <div>
-                            <button type="submit" id="submit-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 font-medium w-full">
+                            <button type="submit" id="submit-btn" class="gradient-btn px-6 py-3 rounded-xl font-medium w-full">
                                 <span class="btn-text">Send Message</span>
                                 <span class="spinner"></span>
                             </button>
@@ -977,7 +1394,7 @@
   </div>
   
   <div class="chatbot-messages">
-    <div class="message bot-message">
+    <div class="message bot-message visible">
       <div class="avatar">
         <i class="fas fa-robot"></i>
       </div>
@@ -1079,14 +1496,28 @@
         }
     });
     
-    // Add shadow to navbar on scroll
+    // Navbar scroll effect
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('nav');
+    
     window.addEventListener('scroll', function() {
-        const nav = document.querySelector('nav');
-        if (window.scrollY > 10) {
-            nav.classList.add('shadow-md');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Add shadow on scroll
+        if (scrollTop > 10) {
+            navbar.classList.add('shadow-md');
         } else {
-            nav.classList.remove('shadow-md');
+            navbar.classList.remove('shadow-md');
         }
+        
+        // Navbar shrink effect
+        if (scrollTop > 100 && scrollTop > lastScrollTop) {
+            navbar.classList.add('shrink');
+        } else {
+            navbar.classList.remove('shrink');
+        }
+        
+        lastScrollTop = scrollTop;
     });
     
     // Scroll progress bar
@@ -1137,7 +1568,9 @@
                 // For skill bars
                 if (entry.target.classList.contains('skill-bar')) {
                     const width = entry.target.getAttribute('data-width');
-                    entry.target.style.width = width;
+                    setTimeout(() => {
+                        entry.target.style.width = width;
+                    }, 300);
                 }
             }
         });
@@ -1208,7 +1641,23 @@
             });
     });
 
-// Chatbot functionality
+    // Dark mode toggle
+    const themeToggle = document.querySelector('.theme-toggle');
+    const html = document.documentElement;
+    
+    themeToggle.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+        html.classList.add('dark');
+    } else if (localStorage.getItem('theme') === 'light') {
+        html.classList.remove('dark');
+    }
+    
+    // Chatbot functionality
     const chatbotIcon = document.querySelector('.chatbot-icon');
     const chatbotContainer = document.querySelector('.chatbot-container');
     const chatCloseBtn = document.querySelector('.chatbot-close');
@@ -1216,10 +1665,10 @@
     const sendBtn = document.getElementById('send-btn');
     const chatMessages = document.querySelector('.chatbot-messages');
     const chatBubble = document.getElementById('chat-bubble');
-
+    
     // Hide bubble initially
     chatBubble.style.display = 'none';
-
+    
     const bubbleMessages = [
         "Ask me anything!",
         "Need help with web development?",
@@ -1229,7 +1678,7 @@
     ];
     let currentBubbleIndex = 0;
     let bubbleTimeout;
-
+    
     // Function to show next chat bubble
     function showNextBubble() {
         // Don't show if chat is open
@@ -1251,29 +1700,29 @@
             bubbleTimeout = setTimeout(showNextBubble, 7000);
         }, 5000);
     }
-
+    
     // Start bubble sequence after initial delay
     setTimeout(() => {
         showNextBubble();
     }, 7000);
-
-    // Toggle chat window - only one event listener needed
+    
+    // Toggle chat window
     chatbotIcon.addEventListener('click', () => {
         chatbotContainer.classList.toggle('active');
         chatBubble.style.display = 'none';
         clearTimeout(bubbleTimeout);
     });
-
+    
     // Close chat window
     chatCloseBtn.addEventListener('click', () => {
         chatbotContainer.classList.remove('active');
     });
-
+    
     // Hide bubble on icon hover
     chatbotIcon.addEventListener('mouseover', () => {
         chatBubble.style.display = 'none';
     });
-
+    
     // Send message
     function sendMessage() {
         const message = chatInput.value.trim();
@@ -1291,23 +1740,23 @@
             }, 1000);
         }
     }
-
+    
     // Quick reply function
     function quickReply(message) {
         chatInput.value = message;
         sendMessage();
     }
-
+    
     // Send on button click
     sendBtn.addEventListener('click', sendMessage);
-
+    
     // Send on Enter key
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             sendMessage();
         }
     });
-
+    
     // Add message to chat
     function addMessage(text, sender) {
         const messageDiv = document.createElement('div');
@@ -1332,10 +1781,15 @@
         
         chatMessages.appendChild(messageDiv);
         
+        // Add visible class after a short delay for animation
+        setTimeout(() => {
+            messageDiv.classList.add('visible');
+        }, 10);
+        
         // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
+    
     // Show typing indicator
     function showTypingIndicator() {
         const typingDiv = document.createElement('div');
@@ -1351,7 +1805,7 @@
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
+    
     // Remove typing indicator
     function removeTypingIndicator() {
         const typingIndicator = document.getElementById('typing-indicator');
@@ -1359,7 +1813,7 @@
             typingIndicator.remove();
         }
     }
-
+    
     // Advanced bot response system
     function getBotResponse(userMessage) {
         const lowerMessage = userMessage.toLowerCase();
@@ -1413,7 +1867,6 @@
                 response: "Debugging is one of my strengths! I approach problems by:\n1. Reproducing the issue\n2. Isolating the cause\n3. Researching solutions\n4. Implementing fixes\n5. Testing thoroughly\n\nDescribe your issue and I'll try to help!",
                 quickReplies: ['Common PHP errors', 'Debugging techniques', 'Error handling']
             },
-
             {
                 keywords: ['deploy', 'hosting', 'server', 'online', 'vercel', 'shared hosting', 'cpanel'],
                 response: "I usually deploy my apps on platforms like Vercel, shared hosting with cPanel, or VPS with custom setups.\nI can help you deploy Laravel apps, configure .env files, and set up production databases.",
@@ -1485,6 +1938,11 @@
         messageDiv.appendChild(contentDiv);
         
         chatMessages.appendChild(messageDiv);
+        
+        // Add visible class after a short delay for animation
+        setTimeout(() => {
+            messageDiv.classList.add('visible');
+        }, 10);
         
         // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
